@@ -23,7 +23,7 @@ Yes. Declare orbs under `orbs` and functions under `functions` in the same confi
 [#which-version-to-use]
 === Which version of a function do I use?
 
-Use the latest version unless you need a specific one. The quickstart on each function page uses the latest version. To see every published version, run `circleci function get <name>`. To declare a function at its latest version, run `circleci function add <name>`.
+Use the latest version unless you need a specific one. To see every published version, run `circleci function get <name>`. To declare a function at its latest version, run `circleci function add <name>`.
 
 [#why-exact-versions]
 === Why do I need to pin an exact version?
@@ -33,22 +33,22 @@ An exact version means a pipeline runs the same function every time, until you c
 [#validation-fails-after-update]
 === Why does my configuration fail validation after I change a function version?
 
-CircleCI checks each function step against the version you pin. If the new version renamed or removed an argument or command that your step uses, validation fails and the error lists the valid arguments or commands. Update the step to match, then run `circleci config validate` to check it.
+CircleCI checks each function step against the version you pin. If the new version renamed or removed a flag or command that your step uses, validation fails and the error lists the valid flags or commands. Update the step to match, then run `circleci config validate` to check it.
 
-[#see-function-arguments]
-=== How do I see the arguments a function accepts?
+[#see-function-flags]
+=== How do I see the flags a function accepts?
 
-Each function page in the xref:use:functions-catalog.adoc[Functions Catalog] lists every command and argument, with its type and default. From your terminal, run `circleci function get <name>`.
+Each function's README, linked from the xref:use:functions-catalog.adoc[Functions Catalog], lists every command and flag. From your terminal, run `circleci function get <name>`.
 
 [#cache-steps]
 === Do I need to add cache steps when I use a function?
 
-No. Functions that support caching restore their caches when their step runs and save them when the job ends. Each function page describes what the function caches and the arguments that control it.
+No. Functions that support caching restore their caches when their step runs and save them when the job ends. Each function's README describes what the function caches and the flags that control it.
 
 [#which-executors]
 === Which executors can I use functions on?
 
-Functions run inside your job, on the executor the job uses. Supported operating systems and architectures differ by function, and each function page lists them under *Platform support*.
+Functions run inside your job, on the executor the job uses. Supported operating systems and architectures differ by function, and each function's README lists them under *Platform support*.
 
 [#circleci-server]
 === Can I use functions on CircleCI Server?

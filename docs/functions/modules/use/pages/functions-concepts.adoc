@@ -2,13 +2,13 @@
 :page-badge: Beta
 :page-platform: Cloud
 :page-audience: developer
-:page-description: Conceptual overview of CircleCI functions, including commands, arguments, aliases, versions, and validation.
+:page-description: Conceptual overview of CircleCI functions, including commands, flags, aliases, versions, and validation.
 :experimental:
 
 CircleCI functions are versioned, tested programs that run as steps inside your jobs. A function includes the following elements:
 
 * *Commands*. The tasks a function performs, for example installing a runtime or installing dependencies.
-* *Arguments*. The options each command accepts.
+* *Flags*. The options each command accepts.
 
 You declare a function once in your configuration and call its commands as steps in any job. This page explains how functions are declared, called, versioned, and validated.
 
@@ -48,12 +48,12 @@ jobs:
   #... workflows, other jobs etc.
 ----
 
-The commands each function provides are listed on its page in the xref:use:functions-catalog.adoc[Functions Catalog].
+The commands each function provides are listed in its README, linked from the xref:use:functions-catalog.adoc[Functions Catalog].
 
-[#arguments]
-=== Arguments
+[#flags]
+=== Flags
 
-Arguments change what a command does. Pass arguments under `with:` in the step. Each argument has a type and, in most cases, a default value, so a step that uses only default values needs no `with:` at all.
+Flags change what a command does. Pass flags under `with:` in the step, without the leading `--`. For example, the `--version-file` flag is written as `version-file:`. Each flag has a type and, in most cases, a default value, so a step that uses only default values needs no `with:` at all.
 
 [,yaml]
 ----
@@ -64,7 +64,7 @@ steps:
         golangci-lint-cache: true
 ----
 
-Each function page lists every argument for every command, with its type, default, and description. To see a function's arguments from your terminal, run `circleci function get <name>`.
+Each function's README lists the flags for every command. To see a function's flags from your terminal, run `circleci function get <name>`.
 
 [#aliases]
 == Aliases
@@ -115,9 +115,9 @@ When your configuration compiles, CircleCI checks every function step against th
 * The version is not a valid version string.
 * The function or version is not published.
 * A step uses a command the function does not have.
-* A step uses an argument the command does not accept.
+* A step uses a flag the command does not accept.
 
-The error names the job and step, and lists the valid commands or arguments. Run the same checks locally before you push:
+The error names the job and step, and lists the valid commands or flags. Run the same checks locally before you push:
 
 [,shell]
 ----
@@ -131,7 +131,7 @@ When a job reaches a function step, CircleCI runs the function version you pinne
 
 Functions that support caching manage their own caches. They restore the cache when their step runs and save it to the job cache when the job ends. Your job needs no `restore_cache` or `save_cache` steps for what the function caches.
 
-Each function page lists the operating systems, architectures, and executors the function supports.
+Each function's README lists the operating systems and architectures the function supports.
 
 [#functions-and-orbs]
 == Functions and orbs
@@ -153,7 +153,7 @@ Orbs and functions both help you reuse work across pipelines, and you can use bo
 | The `functions` key.
 
 | What they are best for
-| Sharing whole jobs and workflows, and integrations that need configuration logic.
+| Sharing whole jobs and workflows, and configuration logic across projects.
 | Setting up tools, dependencies, caches, and credentials inside a job.
 
 | Versions

@@ -11,7 +11,7 @@ Functions are versioned, tested programs that set up the tools your jobs need. U
 * Install and cache your project's dependencies.
 * Configure credentials for cloud providers and registries.
 * Pin the tools your pipeline depends on to known versions.
-* Catch version and argument mistakes when your configuration compiles.
+* Catch version and flag mistakes when your configuration compiles.
 
 [#introduction]
 == Introduction
@@ -19,7 +19,7 @@ Functions are versioned, tested programs that set up the tools your jobs need. U
 CircleCI functions are programs that run as steps inside your jobs. Each function covers one tool or task, for example installing Go, installing Node.js and a project's packages, or configuring the AWS CLI. A function is made up of the following elements:
 
 * *Commands*. A command is one task the function performs, for example installing a runtime or installing dependencies. Every function provides at least one command.
-* *Arguments*. An argument is an option that changes what a command does, for example the version to install or whether to use caching.
+* *Flags*. A flag is an option that changes what a command does, for example the version to install or whether to use caching.
 
 CircleCI writes, tests, and publishes the functions in the xref:use:functions-catalog.adoc[Functions Catalog]. For more detail on how functions work, refer to xref:use:functions-concepts.adoc[Functions Concepts].
 
@@ -28,7 +28,7 @@ CircleCI writes, tests, and publishes the functions in the xref:use:functions-ca
 
 A function is identified by its _name_ and a _version_. The name is the full path of the function, for example `github.com/circleci-functions/setup-node`. The name is followed by an `@` symbol and the exact version to use, for example `github.com/circleci-functions/setup-node@v0.4.0`.
 
-Each function page in the xref:use:functions-catalog.adoc[Functions Catalog] provides a quickstart, which contains a sample configuration for the function at its latest version.
+The xref:use:functions-catalog.adoc[Functions Catalog] links to each function's README, which covers its flags, usage, and versions.
 
 The example below shows how to declare a function in your CircleCI configuration file. Use the tabs to switch between a generic layout for declaring any function, and a specific example of declaring the `setup-node` function:
 
@@ -58,13 +58,13 @@ functions:
 --
 ====
 
-The key under `functions` is the _alias_. You choose the alias, and your steps call the function by it. A step named `<alias>` runs the function's default command. A step named `<alias>/<command>` runs one of its other commands. Pass arguments under `with:`. The arguments available for each command are listed in a table on the function's page.
+The key under `functions` is the _alias_. You choose the alias, and your steps call the function by it. A step named `<alias>` runs the function's default command. A step named `<alias>/<command>` runs one of its other commands. Pass flags under `with:`, without the leading `--`. The flags available for each command are listed in the function's README.
 
 The `setup-node` function provides an `install-packages` command. This command:
 
 * Installs your project's dependencies with the package manager your lockfile names.
 * Caches the package manager's downloads between runs.
-* Provides additional options through arguments.
+* Provides additional options through flags.
 
 To use the `install-packages` command, reference it in a step as follows:
 
@@ -176,26 +176,7 @@ workflows:
 [#the-functions-catalog]
 == The functions catalog
 
-The xref:use:functions-catalog.adoc[Functions Catalog] lists every function CircleCI publishes, grouped by what they set up:
-
-[.table-scroll]
---
-[cols="1,2", options="header"]
-|===
-| Category | Functions
-
-| Languages and runtimes
-| `setup-dotnet`, `setup-go`, `setup-java`, `setup-node`, `setup-python`, `setup-ruby`
-
-| Cloud and developer tools
-| `setup-aws`, `setup-docker`, `setup-github-cli`
-
-| Testing
-| `setup-browser-tools`
-|===
---
-
-Each function page describes what the function does, and lists its commands, arguments, and supported platforms.
+The xref:use:functions-catalog.adoc[Functions Catalog] lists every function CircleCI publishes, with a link to each function's README.
 
 [#functions-in-the-circleci-cli]
 == Functions in the CircleCI CLI
@@ -212,7 +193,7 @@ The xref:guides:toolkit:circleci-cli.adoc[CircleCI CLI] includes a `function` co
 | List the published functions and their latest versions. Add `--pinned` to list the functions your configuration declares.
 
 | `circleci function get <name>`
-| Show a function's published versions and arguments.
+| Show a function's published versions and flags.
 
 | `circleci function add <name>`
 | Declare a function in your configuration at its latest version.
